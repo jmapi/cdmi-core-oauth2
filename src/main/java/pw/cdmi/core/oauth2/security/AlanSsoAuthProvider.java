@@ -8,15 +8,20 @@
 package pw.cdmi.core.oauth2.security;
 
 import java.util.Collections;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+
+import pw.cdmi.core.oauth2.entitiys.User;
+import pw.cdmi.core.oauth2.entitiys.UserRepository;
 
 /************************************************************
  * @Description:
@@ -32,15 +37,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlanSsoAuthProvider implements AuthenticationProvider {
     private static final Logger log = LoggerFactory.getLogger(AlanSsoAuthProvider.class);
-
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         log.debug("自定义provider调用");
-
+        UsernamePasswordAuthenticationToken usernameToken=(UsernamePasswordAuthenticationToken)authentication;
+        User user = new User(); 
+        user.setCreateDate(new Date());
+        user.setUsername((String)usernameToken.getPrincipal());
+        user.setPassword((String)usernameToken.getCredentials());
+        
         // 返回一个Token对象表示登陆成功
-        return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), Collections.<GrantedAuthority>emptyList());
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), Collections.<GrantedAuthority>emptyList());
+        System.out.println("username:"+usernameToken.getPrincipal()+"    password:"+usernameToken.getCredentials().toString()+usernameToken);
+        System.out.println(usernamePasswordAuthenticationToken.toString());
+        return usernamePasswordAuthenticationToken;
     }
-
+    
     @Override
     public boolean supports(Class<?> aClass) {
         return true;

@@ -7,10 +7,14 @@
  */ 
 package pw.cdmi.core.oauth2.controller;
 
+import java.security.Principal;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.oauth2.provider.AuthorizationRequest;
+import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,4 +43,16 @@ public class ErrorCtr {
 
         return "redirect:" + uri + "?error=1";
     }
+    /*
+    @RequestMapping("/oauth/confirm_access")
+	public String getAccessConfirmation(Map<String, Object> model, Principal principal) throws AccessDeniedException {
+		AuthorizationRequest clientAuth = (AuthorizationRequest) model.remove("authorizationRequest");
+		System.out.println("safsdf");
+		if(true)
+		throw new AccessDeniedException("无法进行授权！");
+		
+		return "/user_grant_scope";
+	}
+	
+    */
 }

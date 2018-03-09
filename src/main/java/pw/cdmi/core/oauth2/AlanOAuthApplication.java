@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -30,6 +31,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  * @Project   Alpha CDMI Service Platform, cdmi-core-oauth2 Component. 2017年6月5日
  ************************************************************/
 @SpringBootApplication
+@ImportResource(locations = "classpath*:META-INF/spring/*.bean.xml")
 @EnableAuthorizationServer
 public class AlanOAuthApplication {
     public static void main(String[] args) {
