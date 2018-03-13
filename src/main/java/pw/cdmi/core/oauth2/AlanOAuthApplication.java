@@ -1,5 +1,5 @@
 /* 
- * 版权声明(Copyright Notice)：
+wq * 版权声明(Copyright Notice)：
  *     Copyright(C) 2017-2017 聚数科技成都有限公司。保留所有权利。
  *     Copyright(C) 2017-2017 www.cdmi.pw Inc. All rights reserved. 
  * 
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
