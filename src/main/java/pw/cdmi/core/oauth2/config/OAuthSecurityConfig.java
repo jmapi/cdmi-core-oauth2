@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
@@ -16,6 +17,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,12 +35,12 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
     public TokenStore tokenStore() {
         return new JdbcTokenStore(dataSource);
     }
-
+    
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(authenticationManager);
+    //    endpoints.authenticationManager(authenticationManager);
         endpoints.tokenStore(tokenStore());
-
+        endpoints.userDetailsService(UserDetails());
         // 配置TokenServices参数
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(endpoints.getTokenStore());
@@ -56,10 +58,13 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
         oauthServer.checkTokenAccess("permitAll()");
         oauthServer.allowFormAuthenticationForClients();
     }
-
+    @Bean
+    public UserDetailsService UserDetails(){
+    	return new OAuth2UserDetailsService();
+    }
     @Bean
     public ClientDetailsService clientDetails() {
-        return new JdbcClientDetailsService(dataSource);
+        return new OAuth2ClientDetailsService();
     }
 
     @Override
@@ -76,5 +81,6 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
         //                .authorizedGrantTypes("authorization_code")
         //                .scopes("app");
     }
+    
 
 }

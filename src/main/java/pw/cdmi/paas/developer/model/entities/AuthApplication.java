@@ -1,8 +1,6 @@
 package pw.cdmi.paas.developer.model.entities;
 
-
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,28 +11,32 @@ import org.springframework.data.annotation.CreatedDate;
 import lombok.Data;
 
 
-
 @Data
 @Entity
-@Table(name = "p_developer")
-public class Developer {
+@Table(name="p_authapp")
+public class AuthApplication {
 	@Id
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	@GeneratedValue(generator = "system-uuid")
-	private String id;							//开发者id
+	private String id;
 	
 	@Column(name="name", nullable=false)
-	private String Name;						//开发者名称
+	private String appName;
 	
 	@Column(name="type", nullable=false)
-	private String Type;					//开发者类型，个人用户、企业用户
+	private String appType;
 	
-	@Column(name="people_id", nullable = false)
-	private String peopleId;					//开发者主管的Id
+	@Column(name="url_icon",nullable=true)
+	private String urlIcon;
 	
-	@Column(name="open_id" , nullable= false)
-	private String openId;
-		
 	@CreatedDate
-	private Date createTime;					//注册时间
+	@Column(name="create_time",nullable=false)
+	private Date createTime;
+	@CreatedDate
+	@Column(name="update_time",nullable=true)
+	private Date updateTime;
+	
+	//对应的开发者
+	@Column(name="developer_id",nullable=false)
+	private String developerId;
 }
